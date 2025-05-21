@@ -73,6 +73,20 @@ const StudentDashboard = () => {
   const getSelectedTeacher = () => {
     return teachersData.find(t => t.id === selectedTeacher);
   };
+  
+  // Handle reschedule button click
+  const handleReschedule = (appointmentId: number) => {
+    const appointment = upcomingAppointments.find(a => a.id === appointmentId);
+    if (appointment) {
+      const teacherId = teachersData.find(t => t.name === appointment.teacher)?.id || 1;
+      setSelectedTeacher(teacherId);
+      setBookingStep("select-time");
+      toast({
+        title: "Reschedule Appointment",
+        description: `Select a new time for your appointment with ${appointment.teacher}`,
+      });
+    }
+  };
 
   return (
     <div className="space-y-8">
@@ -99,7 +113,13 @@ const StudentDashboard = () => {
                         <span>{appointment.duration} minutes</span>
                       </div>
                     </div>
-                    <Button variant="outline" size="sm">Reschedule</Button>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => handleReschedule(appointment.id)}
+                    >
+                      Reschedule
+                    </Button>
                   </div>
                 </CardContent>
               </Card>

@@ -68,6 +68,27 @@ const ScheduleManager = () => {
     });
   };
 
+  const handleClearAll = () => {
+    if (selectedTab === "recurring") {
+      setSelectedDays({});
+      setSelectedSlots({});
+    } else {
+      // For specific dates, only clear the selected date
+      if (date) {
+        setSelectedSlots((prev) => {
+          const newSlots = { ...prev };
+          delete newSlots[date.toDateString()];
+          return newSlots;
+        });
+      }
+    }
+    
+    toast({
+      title: "Schedule Cleared",
+      description: selectedTab === "recurring" ? "All selections have been cleared." : "The selected date's availability has been cleared."
+    });
+  };
+
   return (
     <div className="space-y-8">
       <h1 className="text-3xl font-bold">Manage Your Schedule</h1>
@@ -173,7 +194,7 @@ const ScheduleManager = () => {
           </Tabs>
           
           <div className="mt-8 flex justify-end gap-2">
-            <Button variant="outline">Clear All</Button>
+            <Button variant="outline" onClick={handleClearAll}>Clear All</Button>
             <Button onClick={handleSaveSchedule}>Save Schedule</Button>
           </div>
         </CardContent>

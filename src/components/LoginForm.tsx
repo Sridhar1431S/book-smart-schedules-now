@@ -37,6 +37,22 @@ const LoginForm = ({ onLogin }: { onLogin: (userData: { name: string; role: "stu
     });
   };
 
+  const handleForgotPassword = () => {
+    if (!email) {
+      toast({
+        title: "Email Required",
+        description: "Please enter your email address first",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    toast({
+      title: "Password Reset Email Sent",
+      description: `Check your inbox at ${email} for reset instructions`,
+    });
+  };
+
   return (
     <Card className="w-full max-w-md">
       <CardHeader className="space-y-1">
@@ -89,7 +105,13 @@ const LoginForm = ({ onLogin }: { onLogin: (userData: { name: string; role: "stu
       </CardContent>
       <CardFooter className="flex flex-col">
         <div className="text-sm text-muted-foreground text-center">
-          <span className="hover:text-primary cursor-pointer">Forgot password?</span>
+          <Button 
+            variant="link" 
+            className="p-0 h-auto" 
+            onClick={handleForgotPassword}
+          >
+            Forgot password?
+          </Button>
         </div>
       </CardFooter>
     </Card>
